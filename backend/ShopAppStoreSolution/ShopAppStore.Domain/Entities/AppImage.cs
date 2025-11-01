@@ -8,6 +8,8 @@ public class AppImage : IEntity<Guid>
 
     public Guid AppId { get; set; }
 
+    public string PublicId { get; set; } = null!;
+
     public string ImageUrl { get; set; } = null!;
 
     public virtual App App { get; set; } = null!;

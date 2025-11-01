@@ -7,8 +7,6 @@
 
         public string CategoryName { get; set; } = null!;
 
-        public Guid? ParentId { get; set; }
-
         public string Slug { get; set; } = null!;
     }
 }

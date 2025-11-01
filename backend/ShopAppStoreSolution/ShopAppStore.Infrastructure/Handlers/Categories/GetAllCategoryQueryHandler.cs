@@ -25,7 +25,6 @@ namespace ShopAppStore.Infrastructure.Handlers.Categories
                 {
                     Id = c.Id,
                     CategoryName = c.CategoryName,
-                    ParentId = c.ParentId,
                     Slug = c.Slug
                 })
                 .ToListAsync(cancellationToken);

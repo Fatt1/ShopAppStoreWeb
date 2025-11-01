@@ -33,6 +33,8 @@ public partial class App : IHasSlug, ISoftDelete, IEntity<Guid>
 
     public int SoldCount { get; set; }
 
+    public string? Note { get; set; }
+
     public virtual ICollection<AppAccount> AppAccounts { get; set; } = new List<AppAccount>();
 
     public virtual ICollection<AppCategory> AppCategories { get; set; } = new List<AppCategory>();

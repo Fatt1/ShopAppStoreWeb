@@ -20,23 +20,29 @@ namespace ShopAppStore.Infrastructure.Handlers.Products
 
         public async Task<Result<PagedList<GetAllAppDTO>>> Handle(FilterAppPaginationQuery request, CancellationToken cancellationToken)
         {
-
-            var existCategory = _context.Categories
-                .AsNoTracking()
-                .Any(c => c.Id == request.CategoryId);
-            if (existCategory == false)
+            // Validate CategoryIds
+            if (request.CategoryIds == null || !request.CategoryIds.Any())
             {
-                return Result<PagedList<GetAllAppDTO>>.Failure(new Error("CategoryNotFound", $"Categgory with id: {request.CategoryId} not found"));
+                return Result<PagedList<GetAllAppDTO>>.Failure(new Error("CategoryIdsRequired", "At least one CategoryId is required"));
             }
 
-            // Base query
-            var query = _context.Apps
+            // Check if all categories exist
+            var existingCategoryIds = await _context.Categories
                 .AsNoTracking()
-                .Where(app => !app.IsDeleted);
+                .Where(c => request.CategoryIds.Contains(c.Id))
+                .Select(c => c.Id)
+                .ToListAsync(cancellationToken);
 
-            // Filter by CategoryId(Required)
+            var invalidCategoryIds = request.CategoryIds.Except(existingCategoryIds).ToList();
+            if (invalidCategoryIds.Any())
+            {
+                return Result<PagedList<GetAllAppDTO>>.Failure(
+                    new Error("CategoryNotFound", $"Categories with ids: {string.Join(", ", invalidCategoryIds)} not found"));
+            }
 
-            query = query.Where(app => app.AppCategories.Any(ac => ac.CategoryId == request.CategoryId));
+
+            // Filter by CategoryIds (Required) - App must belong to at least one of the selected categories
+            var query = _context.Apps.Where(app => app.AppCategories.Any(ac => request.CategoryIds.Contains(ac.CategoryId)));
 
             // Filter by Price Range
             if (request.PriceFrom.HasValue && request.PriceFrom.Value > 0)
@@ -73,6 +79,7 @@ namespace ShopAppStore.Infrastructure.Handlers.Products
                 ThumbnailUrl = app.ThumbnailUrl,
                 CurrentPrice = app.CurrentPrice,
                 OriginalPrice = app.OriginalPrice,
+                Slug = app.Slug,
                 Stock = app.AppAccounts.Count(a => a.Status == AppAccountStatus.Available)
             });
 

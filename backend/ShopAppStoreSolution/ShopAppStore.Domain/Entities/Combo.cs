@@ -1,8 +1,9 @@
-﻿using ShopAppStore.Domain.Interfaces;
+﻿using ShopAppStore.Domain.Common;
+using ShopAppStore.Domain.Interfaces;
 
 namespace ShopAppStore.Infrastructure.Entities;
 
-public class Combo : IEntity<Guid>
+public class Combo : IEntity<Guid>, ISoftDelete
 {
     public Guid Id { get; set; }
 
@@ -11,6 +12,10 @@ public class Combo : IEntity<Guid>
     public string ComboName { get; set; } = null!;
 
     public Guid ComboTypeId { get; set; }
+
+    public string ImageUrl { get; set; } = null!;
+
+    public string PublicIdImage { get; set; } = null!;
 
     public DateTime CreateAt { get; set; }
 

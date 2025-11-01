@@ -230,6 +230,9 @@ namespace ShopAppStore.Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("OriginalPrice")
                         .HasColumnType("decimal(18, 0)");
 
@@ -335,6 +338,10 @@ namespace ShopAppStore.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PublicId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -614,15 +621,16 @@ namespace ShopAppStore.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("(newid())");
 
+                    b.Property<string>("CategoryDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CategoryName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime");
-
-                    b.Property<Guid?>("ParentId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Slug")
                         .IsRequired()
@@ -634,8 +642,6 @@ namespace ShopAppStore.Infrastructure.Migrations
 
                     b.HasKey("Id")
                         .HasName("PK__Category__3214EC07BF69C415");
-
-                    b.HasIndex("ParentId");
 
                     b.HasIndex(new[] { "Slug" }, "UQ__Category__BC7B5FB6F346B578")
                         .IsUnique();
@@ -666,8 +672,16 @@ namespace ShopAppStore.Infrastructure.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<string>("PublicIdImage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdateAt")
                         .HasColumnType("datetime");
@@ -1216,16 +1230,6 @@ namespace ShopAppStore.Infrastructure.Migrations
                     b.Navigation("Combo");
                 });
 
-            modelBuilder.Entity("ShopAppStore.Infrastructure.Entities.Category", b =>
-                {
-                    b.HasOne("ShopAppStore.Infrastructure.Entities.Category", "Parent")
-                        .WithMany("Children")
-                        .HasForeignKey("ParentId")
-                        .HasConstraintName("Category_fk2");
-
-                    b.Navigation("Parent");
-                });
-
             modelBuilder.Entity("ShopAppStore.Infrastructure.Entities.Combo", b =>
                 {
                     b.HasOne("ShopAppStore.Infrastructure.Entities.ComboType", "ComboType")
@@ -1421,8 +1425,6 @@ namespace ShopAppStore.Infrastructure.Migrations
             modelBuilder.Entity("ShopAppStore.Infrastructure.Entities.Category", b =>
                 {
                     b.Navigation("AppCategories");
-
-                    b.Navigation("Children");
                 });
 
             modelBuilder.Entity("ShopAppStore.Infrastructure.Entities.Combo", b =>

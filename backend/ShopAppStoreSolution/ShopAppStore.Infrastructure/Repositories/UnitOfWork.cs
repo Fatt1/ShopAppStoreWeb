@@ -15,14 +15,13 @@ namespace ShopAppStore.Infrastructure.Repositories
 
         public async Task BeginTransactionAsync(CancellationToken cancellationToken = default)
         {
-            await _context.Database.BeginTransactionAsync(cancellationToken);
+            _transaction = await _context.Database.BeginTransactionAsync(cancellationToken);
         }
 
         public async Task CommitAsync(CancellationToken cancellationToken = default)
         {
             try
             {
-                await SaveChangesAsync(cancellationToken);
                 if (_transaction != null)
                 {
                     await _transaction.CommitAsync(cancellationToken);

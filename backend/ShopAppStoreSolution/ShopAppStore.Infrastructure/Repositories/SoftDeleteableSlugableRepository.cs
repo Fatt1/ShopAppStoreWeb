@@ -21,10 +21,14 @@ namespace ShopAppStore.Infrastructure.Repositories
             return _dbSet.FirstOrDefaultAsync(entity => entity.Slug == slug, cancellationToken);
         }
 
-        public Task<bool> IsSlugUniqueAsync(string slug, CancellationToken cancellationToken = default)
+        public async Task<bool> IsSlugUniqueAsync(string slug, CancellationToken cancellationToken = default)
         {
 
-            return _dbSet.AsNoTracking().AnyAsync(entity => entity.Slug == slug, cancellationToken);
+            // 1. Kiểm tra xem có BẤT KỲ entity nào CÓ slug này không
+            bool slugExists = await _dbSet.AsNoTracking()
+                                          .AnyAsync(entity => entity.Slug == slug, cancellationToken);
+            // 2. Trả về kết quả ngược lại (nếu nó tồn tại, thì nó không unique)
+            return !slugExists;
         }
     }
 }

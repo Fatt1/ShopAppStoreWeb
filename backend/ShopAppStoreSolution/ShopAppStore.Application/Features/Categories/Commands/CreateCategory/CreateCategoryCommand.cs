@@ -60,7 +60,7 @@ namespace ShopAppStore.Application.Features.Categories.Commands.CreateCategory
             {
                 CategoryName = request.CategoryName,
                 Slug = slug,
-                ParentId = request.ParentId,
+
                 CreateAt = DateTime.UtcNow,
                 UpdateAt = DateTime.UtcNow
             };

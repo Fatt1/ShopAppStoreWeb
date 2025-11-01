@@ -8,6 +8,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="MediatR" Version="13.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
 	</ItemGroup>
 
   <ItemGroup>
@@ -16,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Products\Commands\" />
+    <Folder Include="Features\ComboTypes\Commands\" />
   </ItemGroup>
 
 </Project>

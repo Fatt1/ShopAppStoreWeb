@@ -19,9 +19,6 @@ namespace ShopAppStore.Infrastructure.Configurations
             builder.Property(e => e.Slug).HasMaxLength(200);
             builder.Property(e => e.UpdateAt).HasColumnType("datetime");
 
-            builder.HasOne(d => d.Parent).WithMany(d => d.Children)
-                .HasForeignKey(d => d.ParentId)
-                .HasConstraintName("Category_fk2");
         }
     }
 }

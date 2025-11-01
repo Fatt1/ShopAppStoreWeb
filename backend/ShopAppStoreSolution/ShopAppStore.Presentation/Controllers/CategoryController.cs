@@ -18,7 +18,7 @@ namespace ShopAppStore.Presentation.Controllers
 
         [ProducesResponseType(typeof(CreateCateogoryDTO), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(Error), (int)HttpStatusCode.BadRequest)]
-        [HttpPost("create")]
+        [HttpPost("add")]
         public async Task<ActionResult<CreateCateogoryDTO>> CreateCategory(CreateCategoryCommand request)
         {
             var result = await _sender.Send(request);

@@ -11,8 +11,7 @@ public class Category : IHasSlug, IEntity<Guid>
 
     public string CategoryName { get; set; } = null!;
 
-    public Guid? ParentId { get; set; }
-
+    public string CategoryDescription { get; set; } = null!;
     public DateTime CreateAt { get; set; }
 
     public DateTime UpdateAt { get; set; }
@@ -21,9 +20,6 @@ public class Category : IHasSlug, IEntity<Guid>
 
     public virtual ICollection<AppCategory> AppCategories { get; set; } = new List<AppCategory>();
 
-    public virtual ICollection<Category> Children { get; set; } = new List<Category>();
-
-    public virtual Category? Parent { get; set; }
 
 
 

@@ -19,5 +19,9 @@ namespace ShopAppStore.Infrastructure.Services.Logging
         {
             logger.LogWarning(message);
         }
+        public void LoggerDebug(string message, params object?[] args)
+        {
+            logger.LogDebug(message, args);
+        }
     }
 }

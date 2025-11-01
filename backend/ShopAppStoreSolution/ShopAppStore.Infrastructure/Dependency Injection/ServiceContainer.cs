@@ -2,11 +2,14 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ShopAppStore.Application.Services.Interfaces;
 using ShopAppStore.Domain.Interfaces.Logging;
 using ShopAppStore.Domain.Interfaces.Repositories;
 using ShopAppStore.Infrastructure.Entities;
 using ShopAppStore.Infrastructure.Repositories;
+using ShopAppStore.Infrastructure.Services.Encryption;
 using ShopAppStore.Infrastructure.Services.Logging;
+using ShopAppStore.Infrastructure.Services.UploadImage;
 
 namespace ShopAppStore.Infrastructure.Dependency_Injection
 {
@@ -44,6 +47,13 @@ namespace ShopAppStore.Infrastructure.Dependency_Injection
             #region Configure Repositories
             services.AddScoped<IAppRepository, AppRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IDurationRepository, DurationRepository>();
+            services.AddScoped<IPlatFormRepository, PlatFormRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IReviewRepository, ReviewRepository>();
+            services.AddScoped<IComboRepository, ComboRepository>();
+            services.AddScoped<IComboTypeRepository, ComboTypeRepository>();
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             #endregion
 
@@ -51,7 +61,15 @@ namespace ShopAppStore.Infrastructure.Dependency_Injection
             services.AddScoped(typeof(IAppLogger<>), typeof(SerilogLoggerAdapter<>));
             #endregion
 
+
+            #region Add Denpendency Services
+            services.AddScoped<IImageUploadService, CloudinaryService>();
+            services.AddScoped<IEncryptionService, AesEncryptionService>();
+            #endregion
+
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ServiceContainer).Assembly));
+
+
             return services;
         }
     }

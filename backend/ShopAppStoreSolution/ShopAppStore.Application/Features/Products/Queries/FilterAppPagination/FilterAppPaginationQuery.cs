@@ -8,7 +8,7 @@ namespace ShopAppStore.Application.Features.Products.Queries.FilterAppPagination
     public record FilterAppPaginationQuery : QueyStringParameters, IQuery<PagedList<GetAllAppDTO>>
     {
         [Required]
-        public Guid CategoryId { get; init; }
+        public List<Guid> CategoryIds { get; init; } = new();
         public decimal? PriceFrom { get; init; }
         public decimal? PriceTo { get; init; }
         public Guid? PlatFormId { get; init; }

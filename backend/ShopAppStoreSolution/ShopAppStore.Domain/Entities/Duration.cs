@@ -1,8 +1,9 @@
-﻿using ShopAppStore.Domain.Interfaces;
+﻿using ShopAppStore.Domain.Common;
+using ShopAppStore.Domain.Interfaces;
 
 namespace ShopAppStore.Infrastructure.Entities;
 
-public class Duration : IEntity<Guid>
+public class Duration : IEntity<Guid>, ISoftDelete
 {
     public Guid Id { get; set; }
 

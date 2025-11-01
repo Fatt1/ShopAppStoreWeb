@@ -24,6 +24,7 @@ namespace ShopAppStore.Infrastructure.Handlers.Products
                     ThumbnailUrl = app.ThumbnailUrl,
                     CurrentPrice = app.CurrentPrice,
                     OriginalPrice = app.OriginalPrice,
+                    Slug = app.Slug,
                     Stock = app.AppAccounts.Count(a => a.Status == AppAccountStatus.Available)
                 });
             var pagedApps = PagedList<GetAllAppDTO>.ToPagedList(apps, request.PageNumber, request.PageSize);
